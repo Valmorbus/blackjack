@@ -53,8 +53,7 @@ public class Blackjack extends BlackjackRules {
 				String split = scanner.next().toLowerCase();
 				if (split.equals("y"))
 					split(cardList, betted, decks, startingBet);
-				else
-					continue;
+				
 			}
 			
 			while (give) {
