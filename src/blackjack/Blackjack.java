@@ -36,32 +36,28 @@ public class Blackjack extends BlackjackRules {
 		cardList.add(card);
 		cardList.add(card2);
 		while (betted > 0) {
-			System.out.println("You got a " + card.getCardName() + " and a "
-					+ card2.getCardName() + " total value " + value(cardList)); 
+			System.out.println("You got a " + card.getCardName() + " and a " + card2.getCardName() + " total value "
+					+ value(cardList));
 			if (value(cardList) == 21) {
 				betted = rules(cardList, dealerValue, betted);
 				System.out.println("you won " + betted);
 				goAgain(startingBet, betted, decks);
 			}
-			
-			
+
 			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(System.in);
-			if (card.cardName.equals(card2.cardName))
-			{
+			if (card.cardName.equals(card2.cardName)) {
 				System.out.println("Do you want to split? Y/N");
 				String split = scanner.next().toLowerCase();
 				if (split.equals("y"))
 					split(cardList, betted, decks, startingBet);
-				
+
 			}
-			
+
 			while (give) {
 
-				if ((value(cardList) == 10 || value(cardList) == 11)
-						&& cardList.size() <= 2) {
-					System.out
-							.println("Do you want to stay or hit or double? ");
+				if ((value(cardList) == 10 || value(cardList) == 11) && cardList.size() <= 2) {
+					System.out.println("Do you want to stay or hit or double? ");
 					doubleDown = true;
 				} else
 					System.out.println("Do you want to stay or hit? ");
@@ -76,10 +72,10 @@ public class Blackjack extends BlackjackRules {
 					dealerValue = dealer(decks);
 					deal(cardList, decks);
 					System.out.println("you now have " + value(cardList));
-					betted = rules(cardList, dealerValue, betted)*2;
-					startingBet-=tempBetted;
+					betted = rules(cardList, dealerValue, betted) * 2;
+					startingBet -= tempBetted;
 					tempBetted *= 2;
-					
+
 					System.out.println(betted + " " + tempBetted);
 					give = false;
 				}
@@ -116,8 +112,7 @@ public class Blackjack extends BlackjackRules {
 		} while (!answer.equals("Y") || !answer.equals("N"));
 	}
 
-	private ArrayList<Cards> deal(ArrayList<Cards> cardList,
-			Stack<Cards> drawing) {
+	private ArrayList<Cards> deal(ArrayList<Cards> cardList, Stack<Cards> drawing) {
 		Cards card = (draw(drawing));
 		cardList.add(card);
 		System.out.println("You got a " + card.getCardName());
@@ -146,8 +141,7 @@ public class Blackjack extends BlackjackRules {
 				else
 					System.out.println("Du har sattsat mer än du har");
 			} else {
-				System.out
-						.println("Felaktig inmatning, skriv igen hur mycket du vill sattsa ");
+				System.out.println("Felaktig inmatning, skriv igen hur mycket du vill sattsa ");
 				scanner.next();
 			}
 		}
@@ -166,8 +160,7 @@ public class Blackjack extends BlackjackRules {
 		do {
 			i++;
 			dealerCards.add(new Cards());
-			System.out.println("dealer draws a "
-					+ dealerCards.get(i).getCardName());
+			System.out.println("dealer draws a " + dealerCards.get(i).getCardName());
 
 		} while (value(dealerCards) <= 16);
 		return value(dealerCards);
@@ -177,76 +170,72 @@ public class Blackjack extends BlackjackRules {
 		Stack<Cards> decks = deckStack();
 		return decks;
 	}
-	
-	 private void split(ArrayList<Cards> hand, int bet, Stack<Cards> decks, int startingBet ) { 
+
+	private void split(ArrayList<Cards> hand, int bet, Stack<Cards> decks, int startingBet) {
 		ArrayList<Cards> list1 = new ArrayList<Cards>();
 		ArrayList<Cards> list2 = new ArrayList<Cards>();
 		int totalBet = 0;
-		int tempBetted = startingBet*2;
-		int [] handsValue = new int[2];
+		int tempBetted = startingBet * 2;
+		int[] handsValue = new int[2];
 		int handValue1 = 0;
 		int handValue2 = 0;
 		boolean hands = true;
 		int dealerValue = dealer(decks);
-		 for (Cards card : hand)
-		 {
-			 if(hands)
-			 {
-				 list1.add(card);
-				 list1 = splitPlay(list1, decks);
-				 handValue1 = rules(list1, dealerValue, bet);
-				 handsValue[0] = handValue1;
-			 }
-			 else
-				 {
-				 list2.add(card);
-				 list2= splitPlay(list2, decks);
-				 handValue2 = rules(list2, dealerValue, bet);
-				 handsValue[1] = handValue2;
-				 }
-			 hands =hands ? false:true; 
-		 }	 
-			 	
-			 	for (int i = 0; i < handsValue.length; i++) {
-				totalBet += bet;
-		 
-				if (totalBet > tempBetted)
-					System.out.println("you won " + tempBetted);
-				else
-					System.out.println("you lost " + tempBetted);
-				}
-				goAgain(startingBet, bet, decks);
-		}
-	 private ArrayList<Cards> splitPlay(ArrayList<Cards> tempCards,Stack<Cards>decks)
-	 {
-		 System.out.println("you have a" +tempCards.get(0).cardName);
-		 boolean give = true;
-		  @SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);
-		while (give) {					
-					System.out.println("Do you want to stay or hit? ");
-				String hitOrStay = scanner.next().toLowerCase();
-
-				if (hitOrStay.equals("hit")) {
-					tempCards = deal(tempCards, decks);
-					System.out.println("you now have " + value(tempCards));
-				} else if (hitOrStay.equals("stay")) {
-					give = false;// check dealer;
-				}
-				if (value(tempCards) >= 21)
-					give = false;
-
+		for (Cards card : hand) {
+			if (hands) {
+				list1.add(card);
+				list1 = splitPlay(list1, decks);
+				handValue1 = rules(list1, dealerValue, bet);
+				handsValue[0] = handValue1;
+			} else {
+				list2.add(card);
+				list2 = splitPlay(list2, decks);
+				handValue2 = rules(list2, dealerValue, bet);
+				handsValue[1] = handValue2;
 			}
-		return tempCards;		  
-	 }
+			hands = hands ? false : true;
+		}
+
+		for (int i = 0; i < handsValue.length; i++) {
+			totalBet += bet;
+
+			if (totalBet > tempBetted)
+				System.out.println("you won " + tempBetted);
+			else
+				System.out.println("you lost " + tempBetted);
+		}
+		goAgain(startingBet, bet, decks);
+	}
+
+	private ArrayList<Cards> splitPlay(ArrayList<Cards> tempCards, Stack<Cards> decks) {
+		System.out.println("you have a" + tempCards.get(0).cardName);
+		boolean give = true;
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		while (give) {
+			System.out.println("Do you want to stay or hit? ");
+			String hitOrStay = scanner.next().toLowerCase();
+
+			if (hitOrStay.equals("hit")) {
+				tempCards = deal(tempCards, decks);
+				System.out.println("you now have " + value(tempCards));
+			} else if (hitOrStay.equals("stay")) {
+				give = false;// check dealer;
+			}
+			if (value(tempCards) >= 21)
+				give = false;
+
+		}
+		return tempCards;
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int startingBet = 1000;
-		
+
 		Stack<Cards> deck = new Stack<Cards>();
 		deck = deckStack();
-		
+
 		new Blackjack(startingBet);
 	}
 
